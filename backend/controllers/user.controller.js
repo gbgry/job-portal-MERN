@@ -75,14 +75,15 @@ export const login = async (req, res) => {
       expiresIn: "1d",
     });
 
-   user={
-    _id:user._id,
-    fullname:user.fullname,
-    email:user.email,
-    phoneNumber:user.phoneNumber,
-    role:user.role,
-    profile:user.profile
-   }
+    //user is updated as this object is created and stored in user
+    user = {
+      _id: user._id,
+      fullname: user.fullname,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+      profile: user.profile,
+    };
 
     return res
       .status(200)
@@ -92,5 +93,7 @@ export const login = async (req, res) => {
         sameSite: "strict",
       })
       .json({ message: `Welcome back ${user.fullname}`, success: true });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 };
