@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
-    const { fullName, email, phoneNumber, password, role } = req.body;
-    if (!fullName || !email || !phoneNumber || !password || !role) {
+    const { fullname, email, phoneNumber, password, role } = req.body;
+    if (!fullname || !email || !phoneNumber || !password || !role) {
       return res.status(400).json({
         message: "something is missing",
         success: false,
@@ -107,6 +107,20 @@ export const logout = async (req, res) => {
       .status(200)
       .cookie("token", "", { maxAge: 0 })
       .json({ message: "logged out successfully", success: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullname, email, phoneNumber, bio, skills } = req.body;
+    if (!fullname || !email || !phoneNumber || !bio || !skills) {
+      return res.status(400).json({
+        message: "something is missing",
+        success: false,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
