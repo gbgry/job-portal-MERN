@@ -11,7 +11,7 @@ export const register = async (req, res) => {
         success: false,
       });
     }
-    //updating user by writing let instead of const
+
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
@@ -33,11 +33,11 @@ export const register = async (req, res) => {
       .status(201)
       .json({ message: "account created successfully.", success: true });
   } catch (error) {
+    //this is also added
     console.log(error);
   }
 };
 
-//login started
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
@@ -96,6 +96,17 @@ export const login = async (req, res) => {
         sameSite: "strict",
       })
       .json({ message: `Welcome back ${user.fullname}`, user, success: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .cookie("token", "", { maxAge: 0 })
+      .json({ message: "logged out successfully", success: true });
   } catch (error) {
     console.log(error);
   }
