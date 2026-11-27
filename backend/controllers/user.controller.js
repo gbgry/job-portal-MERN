@@ -56,13 +56,17 @@ export const login = async (req, res) => {
         success: false,
       });
     }
-    
-    //check role is correct ot not
-    if(role !== user.role){
+
+    if (role !== user.role) {
       return res.status(400).json({
         message: "account doesnt matches with current role.",
-        success: false
-      })
+        success: false,
+      });
     }
+
+    // token data is created to insert in token variable
+    const tokenData = {
+      userId: user._id,
+    };
   } catch (error) {}
 };
