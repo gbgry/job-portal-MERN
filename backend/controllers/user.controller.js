@@ -120,7 +120,9 @@ export const updateProfile = async (req, res) => {
         message: "something is missing",
         success: false,
       });
-    }
+    };
+    const skillsArray = skills.split(",");
+    
   } catch (error) {
     console.log(error);
   }
