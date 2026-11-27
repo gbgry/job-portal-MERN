@@ -28,7 +28,13 @@ export const register = async (req, res) => {
       password: hashedPassword,
       role,
     });
-  } catch (error) {}
+    //this is added
+    return res
+      .status(201)
+      .json({ message: "account created successfully.", success: true });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 //login started
@@ -65,17 +71,14 @@ export const login = async (req, res) => {
       });
     }
 
-    // token data is created to insert in token variable
     const tokenData = {
       userId: user._id,
     };
 
-    // token variable is created
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
-    //user is updated as this object is created and stored in user
     user = {
       _id: user._id,
       fullname: user.fullname,
@@ -92,8 +95,8 @@ export const login = async (req, res) => {
         httpsOnly: true,
         sameSite: "strict",
       })
-      .json({ message: `Welcome back ${user.fullname}`, success: true });
+      .json({ message: `Welcome back ${user.fullname}`, user, success: true });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
