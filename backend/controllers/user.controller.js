@@ -22,7 +22,7 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.create({
-      fullName,
+      fullname,
       email,
       phoneNumber,
       password: hashedPassword,
@@ -120,9 +120,24 @@ export const updateProfile = async (req, res) => {
         message: "something is missing",
         success: false,
       });
-    };
+    }
+
     const skillsArray = skills.split(",");
-    
+    const userId = req.id; //middleware authentication
+    let user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "user not found", success: false });
+    }
+
+    //updating data
+    user.fullname=fullname,
+    user.email=email,
+    user.phoneNumber=phoneNumber,
+    user.profile.bio=bio,
+    user.profile.skills=skillsArray
+
   } catch (error) {
     console.log(error);
   }
