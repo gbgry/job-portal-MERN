@@ -27,16 +27,18 @@
 //   } catch (error) {}
 // };
 
+import bcrypt from "bcryptjs";
+
 export const register = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, password, role } = req.body;
-    if(!fullName || !email || !phoneNumber || !password || !role){
+    if (!fullName || !email || !phoneNumber || !password || !role) {
       res.status(400).json({
         message: "something is missing",
-        success: false
-      })
+        success: false,
+      });
     }
-  } catch (error) {
-
-  }
+    const hashedPassword = await bcrypt.hash(password, 10); //bcrypt
+    
+  } catch (error) {}
 };
