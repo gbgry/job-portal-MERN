@@ -11,8 +11,8 @@ export const register = async (req, res) => {
         success: false,
       });
     }
-    // user and its checking
-    const user = await User.findOne({ email });
+    //updating user by writing let instead of const
+    let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
         message: "user already exist",
@@ -20,7 +20,7 @@ export const register = async (req, res) => {
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    //to create user from usermodel
+
     await User.create({
       fullName,
       email,
@@ -72,8 +72,18 @@ export const login = async (req, res) => {
 
     // token variable is created
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: '1d'
+      expiresIn: "1d",
     });
+
+   user={
+    _id:user._id,
+    fullname:user.fullname,
+    email:user.email,
+    phoneNumber:user.phoneNumber,
+    role:user.role,
+    profile:user.profile
+   }
+
     return res
       .status(200)
       .cookie("token", token, {
