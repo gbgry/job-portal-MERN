@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
-    const file = req.file;
+    
     if (!fullname || !email || !phoneNumber || !password || !role) {
       return res.status(400).json({
         message: "something is missing",
@@ -51,7 +51,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
         message: "incorrect email or password",
